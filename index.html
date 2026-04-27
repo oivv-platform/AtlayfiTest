@@ -28,65 +28,81 @@
             padding: 20px;
             width: calc(100% - 40px); max-width: 380px;
             opacity: 0; visibility: hidden; pointer-events: none;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-                        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        visibility 0.5s;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.5s;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             will-change: transform, opacity;
         }
-
-        .panel.active { 
-            opacity: 1; visibility: visible; pointer-events: auto;
-            transform: translate3d(-50%, 0, 0) scale(1); 
-        }
+        .panel.active { opacity: 1; visibility: visible; pointer-events: auto; transform: translate3d(-50%, 0, 0) scale(1); }
         
         .header-title { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-        
         .header-controls { display: flex; gap: 8px; align-items: center; }
 
-        .icon-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; font-size: 12px; color: #fff; cursor: pointer; transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; }
-        .icon-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        /* Icon Buttons */
+        .icon-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; font-size: 12px; color: #fff; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); flex-shrink: 0; }
         .icon-btn.active { background: #fff; color: #000; border-color: #fff; }
         .icon-btn.done { background: rgba(50, 200, 100, 0.1); border-color: rgba(50, 200, 100, 0.3); color: #4ade80; }
-        .icon-btn.done:hover { background: #4ade80; color: #000; }
+        .icon-btn.tape.active { background: rgba(255, 200, 50, 0.2); color: #fbbf24; border-color: rgba(255, 200, 50, 0.4); }
 
-        /* --- COMPACT GRID --- */
-        .body-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px 15px; 
-            margin-bottom: 5px;
+        /* MORPHING HEADER PILL */
+        .body-group-container {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 100px;
+            padding: 0;
+            gap: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        /* When we are in Body mode, the container gains a border and padding */
+        .body-group-container.expanded {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 2px;
+            gap: 4px;
         }
 
+        .btn-gear {
+            width: 0;
+            opacity: 0;
+            overflow: hidden;
+            border: none !important;
+            pointer-events: none;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+
+        .body-group-container.expanded .btn-gear {
+            width: 30px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- COMPACT GRID --- */
+        .body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 15px; margin-bottom: 5px; }
         .slider-group { width: 100%; }
         .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .label-text { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #eee; }
         .val-text { font-size: 9px; color: var(--text-muted); font-weight: 600; }
-
         .slider-row { display: flex; align-items: center; gap: 10px; }
-        .icon-slot { 
-            width: 32px; height: 32px; 
-            display: flex; align-items: center; justify-content: center; 
-            flex-shrink: 0; 
-        }
+        .icon-slot { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .icon-slot svg { width: 100%; height: 100%; }
 
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; height: 2px; border-radius: 2px; background: rgba(255,255,255,0.15); outline: none; }
         input[type=range]::-webkit-slider-thumb { height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; -webkit-appearance: none; margin-top: -7px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
 
-        /* --- SCROLLBOX WITH SHADOWS --- */
+        /* --- SCROLLBOX --- */
         .scroll-container { position: relative; margin-bottom: 5px; }
         .scroll-container::before, .scroll-container::after { content: ''; position: absolute; top: 0; bottom: 0; width: 30px; z-index: 2; pointer-events: none; }
         .scroll-container::before { left: 0; background: linear-gradient(to right, rgba(18,18,18,0.8), transparent); }
         .scroll-container::after { right: 0; background: linear-gradient(to left, rgba(18,18,18,0.8), transparent); }
-
         .h-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 5px 10px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
         .h-scroll::-webkit-scrollbar { display: none; }
-        
         .face-card { width: 75px; height: 75px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); flex-shrink: 0; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; font-size: 9px; letter-spacing: 1px; cursor: pointer; transition: 0.4s; text-transform: uppercase; }
-        .face-card.selected { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 0 10px rgba(255,255,255,0.05); transform: scale(1.05); }
+        .face-card.selected { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); box-shadow: 0 8px 20px rgba(0,0,0,0.3); transform: scale(1.05); }
 
-        /* --- APP NAVIGATION --- */
+        .category-tab { padding: 8px 18px; border-radius: 30px; font-size: 10px; font-weight: 500; text-transform: uppercase; cursor: pointer; transition: 0.3s; color: var(--text-muted); }
+        .category-tab.active { background: rgba(255,255,255,0.1); border-color: var(--border); color: #fff; }
+
         #main-nav { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 320px; height: 60px; background: rgba(15, 15, 15, 0.85); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border-radius: 100px; border: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
         .nav-item { color: rgba(255,255,255,0.3); font-size: 10px; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: 0.3s; padding: 10px 20px; border-radius: 30px; }
         .nav-item.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.08); }
@@ -99,10 +115,14 @@
     <div id="panel-face" class="panel active">
         <div class="header-title">
             <div class="header-controls">
-                <button class="icon-btn active">F</button>
-                <button class="icon-btn" onclick="navTo('panel-body')">B</button>
+                <button class="icon-btn active" onclick="navTo('panel-face')">F</button>
+                <div class="body-group-container" id="body-toggle-face">
+                    <button class="icon-btn" onclick="navTo('panel-body')">B</button>
+                    <button class="icon-btn btn-gear" onclick="navTo('panel-body-refine')">⚙</button>
+                </div>
             </div>
             <div class="header-controls">
+                <button class="icon-btn tape" onclick="this.classList.toggle('active')">T</button>
                 <button class="icon-btn done" onclick="closeAll()">✓</button>
             </div>
         </div>
@@ -117,9 +137,13 @@
         <div class="header-title">
             <div class="header-controls">
                 <button class="icon-btn" onclick="navTo('panel-face')">F</button>
-                <button class="icon-btn active">B</button>
+                <div class="body-group-container expanded" id="body-toggle-body">
+                    <button class="icon-btn active" onclick="navTo('panel-body')">B</button>
+                    <button class="icon-btn btn-gear" onclick="navTo('panel-body-refine')">⚙</button>
+                </div>
             </div>
             <div class="header-controls">
+                <button class="icon-btn tape" onclick="this.classList.toggle('active')">T</button>
                 <button class="icon-btn done" onclick="closeAll()">✓</button>
             </div>
         </div>
@@ -162,17 +186,21 @@
                 </div>
             </div>
         </div>
-
-        <div style="display: flex; justify-content: flex-end; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border);">
-            <button class="icon-btn" style="width: 28px; height: 28px; border-radius: 8px;" onclick="navTo('panel-body-refine')">➔</button>
-        </div>
     </div>
 
     <div id="panel-body-refine" class="panel">
         <div class="header-title">
-            <button class="icon-btn" style="width: 28px; height: 28px;" onclick="navTo('panel-body')">←</button>
-            <span>Refinement</span>
-            <button class="icon-btn done" onclick="closeAll()" title="Done">✓</button>
+            <div class="header-controls">
+                <button class="icon-btn" onclick="navTo('panel-face')">F</button>
+                <div class="body-group-container expanded">
+                    <button class="icon-btn" onclick="navTo('panel-body')">B</button>
+                    <button class="icon-btn active btn-gear" onclick="navTo('panel-body-refine')">⚙</button>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="icon-btn tape" onclick="this.classList.toggle('active')">T</button>
+                <button class="icon-btn done" onclick="closeAll()">✓</button>
+            </div>
         </div>
         <div class="h-scroll" style="padding-bottom: 15px;">
             <div class="category-tab active">Neck</div><div class="category-tab">Shoulders</div><div class="category-tab">Arms</div><div class="category-tab">Torso</div><div class="category-tab">Legs</div>
@@ -184,17 +212,6 @@
         <div class="slider-group" style="margin-bottom: 15px;">
             <div class="label-row"><div class="label-text">Thickness</div><div class="val-text">50</div></div>
             <input type="range" min="0" max="100" value="50">
-        </div>
-    </div>
-
-    <div id="panel-wardrobe" class="panel">
-        <div class="header-title">Collection 2026<button class="icon-btn done" onclick="closeAll()">✓</button></div>
-        <div class="item-row" onclick="navTo('panel-cloth-actions')">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div class="icon-slot" style="margin: 0; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 8px;">IMG</div>
-                <span class="item-title">Leather Bomber</span>
-            </div>
-            <span>➔</span>
         </div>
     </div>
 
