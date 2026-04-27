@@ -45,16 +45,14 @@
         .header-controls { display: flex; gap: 8px; align-items: center; }
 
         .icon-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; font-size: 12px; color: #fff; cursor: pointer; transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; }
-        .icon-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
         .icon-btn.active { background: #fff; color: #000; border-color: #fff; }
         .icon-btn.done { background: rgba(50, 200, 100, 0.1); border-color: rgba(50, 200, 100, 0.3); color: #4ade80; }
-        .icon-btn.done:hover { background: #4ade80; color: #000; }
 
         /* --- COMPACT GRID --- */
         .body-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 12px 15px; 
+            gap: 15px 15px; 
             margin-bottom: 5px;
         }
 
@@ -63,12 +61,13 @@
         .label-text { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #eee; }
         .val-text { font-size: 9px; color: var(--text-muted); font-weight: 600; }
 
-        .slider-row { display: flex; align-items: center; gap: 8px; }
+        .slider-row { display: flex; align-items: center; gap: 10px; }
         .icon-slot { 
-            width: 24px; height: 24px; 
+            width: 30px; /* Increased from 24px */
+            height: 30px; /* Increased from 24px */
             display: flex; align-items: center; justify-content: center; 
             flex-shrink: 0; 
-            opacity: 0.8;
+            opacity: 0.9;
         }
         .icon-slot svg { width: 100%; height: 100%; }
 
@@ -135,33 +134,9 @@
                     <input type="range" min="0" max="100" value="50">
                 </div>
             </div>
-            <div class="slider-group">
-                <div class="label-row"><div class="label-text">Height</div><div class="val-text">50</div></div>
-                <div class="slider-row">
-                    <div class="icon-slot">
-                        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.68913 14.1176C9.68913 14.1176 10.0048 14.5608 10.2607 14.794C10.5852 15.0897 11.206 15.4049 11.206 15.4049M9.88698 15.6231C9.88698 15.6231 10.2844 16.3604 10.5905 16.6923C10.9395 17.0707 11.3819 17.3905 11.3819 17.3905" stroke="white" stroke-opacity="0.8" stroke-miterlimit="2.20269" stroke-linecap="round"/></svg>
-                    </div>
-                    <input type="range" min="0" max="100" value="50">
-                </div>
-            </div>
-            <div class="slider-group">
-                <div class="label-row"><div class="label-text">Fat %</div><div class="val-text">30</div></div>
-                <div class="slider-row">
-                    <div class="icon-slot">
-                        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.68913 14.1176C9.68913 14.1176 10.0048 14.5608 10.2607 14.794C10.5852 15.0897 11.206 15.4049 11.206 15.4049M9.88698 15.6231C9.88698 15.6231 10.2844 16.3604 10.5905 16.6923C10.9395 17.0707 11.3819 17.3905 11.3819 17.3905" stroke="white" stroke-opacity="0.8" stroke-miterlimit="2.20269" stroke-linecap="round"/></svg>
-                    </div>
-                    <input type="range" min="0" max="100" value="30">
-                </div>
-            </div>
-            <div class="slider-group">
-                <div class="label-row"><div class="label-text">Muscle</div><div class="val-text">60</div></div>
-                <div class="slider-row">
-                    <div class="icon-slot">
-                        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.68913 14.1176C9.68913 14.1176 10.0048 14.5608 10.2607 14.794C10.5852 15.0897 11.206 15.4049 11.206 15.4049M9.88698 15.6231C9.88698 15.6231 10.2844 16.3604 10.5905 16.6923C10.9395 17.0707 11.3819 17.3905 11.3819 17.3905" stroke="white" stroke-opacity="0.8" stroke-miterlimit="2.20269" stroke-linecap="round"/></svg>
-                    </div>
-                    <input type="range" min="0" max="100" value="60">
-                </div>
-            </div>
+            <div class="slider-group"><div class="label-row"><div class="label-text">Height</div><div class="val-text">50</div></div><div class="slider-row"><div class="icon-slot"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.1531 1V3.37781M18.844 1V3.37781M13.1531 2.14927L9.21442 4.0947C9.21442 4.0947 6.76366 4.0947 5.71334 5.31879" stroke="white" stroke-opacity="0.8" stroke-miterlimit="2.20269" stroke-linecap="round"/></svg></div><input type="range" min="0" max="100" value="50"></div></div>
+            <div class="slider-group"><div class="label-row"><div class="label-text">Fat %</div><div class="val-text">30</div></div><div class="slider-row"><div class="icon-slot"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.1531 1V3.37781M18.844 1V3.37781M13.1531 2.14927L9.21442 4.0947C9.21442 4.0947 6.76366 4.0947 5.71334 5.31879" stroke="white" stroke-opacity="0.8" stroke-miterlimit="2.20269" stroke-linecap="round"/></svg></div><input type="range" min="0" max="100" value="30"></div></div>
+            <div class="slider-group"><div class="label-row"><div class="label-text">Muscle</div><div class="val-text">60</div></div><div class="slider-row"><div class="icon-slot"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.1531 1V3.37781M18.844 1V3.37781M13.1531 2.14927L9.21442 4.0947C9.21442 4.0947 6.76366 4.0947 5.71334 5.31879" stroke="white" stroke-opacity="0.8" stroke-miterlimit="2.20269" stroke-linecap="round"/></svg></div><input type="range" min="0" max="100" value="60"></div></div>
         </div>
 
         <div style="display: flex; justify-content: flex-end; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border);">
@@ -184,6 +159,17 @@
         </div>
     </div>
 
+    <div id="panel-wardrobe" class="panel">
+        <div class="header-title">Collection 2026<button class="icon-btn done" onclick="closeAll()">✓</button></div>
+        <div class="item-row" onclick="navTo('panel-cloth-actions')">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="icon-slot" style="margin: 0; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 8px;">IMG</div>
+                <span class="item-title">Leather Bomber</span>
+            </div>
+            <span>➔</span>
+        </div>
+    </div>
+
     <nav id="main-nav">
         <div class="nav-item active" id="nav-avatar" onclick="toggleNav('avatar', 'panel-face')">Avatar</div>
         <div class="nav-item" id="nav-wardrobe" onclick="toggleNav('wardrobe', 'panel-wardrobe')">Wardrobe</div>
@@ -192,35 +178,28 @@
     <script>
         function toggleNav(navType, targetPanelId) {
             const navBtn = document.getElementById('nav-' + navType);
-            if (navBtn.classList.contains('active')) {
-                closeAll();
-            } else {
+            if (navBtn.classList.contains('active')) { closeAll(); } 
+            else {
                 document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
                 navBtn.classList.add('active');
                 navTo(targetPanelId);
             }
         }
-
         function closeAll() {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            setTimeout(() => {
-                document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-            }, 300);
+            setTimeout(() => { document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active')); }, 300);
         }
-
         function navTo(panelId) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             const target = document.getElementById(panelId);
             if(target) target.classList.add('active');
         }
-
         document.querySelectorAll('.face-card').forEach(el => {
             el.addEventListener('click', (e) => {
                 e.target.closest('.h-scroll').querySelectorAll('.face-card').forEach(c => c.classList.remove('selected'));
                 e.target.classList.add('selected');
             });
         });
-
         document.querySelectorAll('input[type=range]').forEach(slider => {
             slider.addEventListener('input', (e) => {
                 const span = e.target.closest('.slider-group').querySelector('.val-text');
