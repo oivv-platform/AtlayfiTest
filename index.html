@@ -15,89 +15,67 @@
         }
         
         *, *::before, *::after { box-sizing: border-box; }
-
         body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden; font-family: 'Montserrat', sans-serif; color: white; -webkit-font-smoothing: antialiased; }
         
-        #fake-ue5-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, #222 0%, #050505 100%); z-index: -1; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.1); font-size: 14px; letter-spacing: 5px; text-transform: uppercase; }
+        #fake-ue5-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, #222 0%, #050505 100%); z-index: -1; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.05); font-size: 24px; letter-spacing: 10px; }
 
-        /* --- THE UNIVERSAL PANEL DESIGN --- */
         .panel { 
             position: absolute; bottom: 105px; left: 50%; 
             transform: translate3d(-50%, 30px, 0) scale(0.95); 
             background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); 
             border: 1px solid var(--border); border-radius: 28px; 
-            padding: 18px 20px; /* Tightened vertical padding */
+            padding: 18px; /* Tightened padding */
             width: calc(100% - 40px); max-width: 380px;
             opacity: 0; visibility: hidden; pointer-events: none;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-                        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        visibility 0.5s;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.5s;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             will-change: transform, opacity;
         }
 
-        .panel.active { 
-            opacity: 1; visibility: visible; pointer-events: auto;
-            transform: translate3d(-50%, 0, 0) scale(1); 
-        }
+        .panel.active { opacity: 1; visibility: visible; pointer-events: auto; transform: translate3d(-50%, 0, 0) scale(1); }
         
-        /* TIGHTENED HEADER */
-        .header-title { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; } /* Reduced from 18px */
-        
+        .header-title { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .header-controls { display: flex; gap: 8px; align-items: center; }
 
-        .icon-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; font-size: 12px; color: #fff; cursor: pointer; transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); flex-shrink: 0; }
-        .icon-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        .icon-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; font-size: 12px; color: #fff; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .icon-btn.active { background: #fff; color: #000; border-color: #fff; }
         .icon-btn.done { background: rgba(50, 200, 100, 0.1); border-color: rgba(50, 200, 100, 0.3); color: #4ade80; }
-        .icon-btn.done:hover { background: #4ade80; color: #000; }
 
-        /* --- SCROLLBOX COMPACT --- */
-        .scroll-container { position: relative; margin-bottom: 0; } /* Removed bottom margin */
-        .scroll-container::before, .scroll-container::after { content: ''; position: absolute; top: 0; bottom: 0; width: 30px; z-index: 2; pointer-events: none; }
-        .scroll-container::before { left: 0; background: linear-gradient(to right, rgba(18,18,18,0.7), transparent); }
-        .scroll-container::after { right: 0; background: linear-gradient(to left, rgba(18,18,18,0.7), transparent); }
-
-        .h-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 4px 10px 8px 10px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
-        .h-scroll::-webkit-scrollbar { display: none; }
-        
-        /* Slightly more compact face card */
-        .face-card { 
-            width: 62px; height: 62px; border-radius: 16px; 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-            flex-shrink: 0; scroll-snap-align: start; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 9px; letter-spacing: 1px; cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-            text-transform: uppercase; 
-        }
-        .face-card.selected { 
-            background: rgba(255,255,255,0.15); 
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 0 10px rgba(255,255,255,0.05);
-            transform: scale(1.05);
+        /* --- THE 40% HEIGHT FIX: 2x2 Grid with Inline Labels --- */
+        .body-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px 12px; 
+            margin-bottom: 5px;
         }
 
-        /* --- SLIDERS COMPACT --- */
-        .slider-group { display: flex; align-items: center; margin-bottom: 12px; } /* Reduced from 15px */
-        .icon-slot { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 8px; color: var(--text-muted); margin-right: 15px; flex-shrink: 0; }
-        .slider-wrapper { flex-grow: 1; }
-        .slider-label { font-size: 10px; font-weight: 500; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px; color: #eee; display: flex; justify-content: space-between; }
-        
+        .slider-group { width: 100%; }
+        .label-row { 
+            display: flex; align-items: center; justify-content: space-between; 
+            margin-bottom: 6px; 
+        }
+        .label-text { 
+            font-size: 9px; font-weight: 600; text-transform: uppercase; 
+            letter-spacing: 1px; color: #fff; display: flex; align-items: center; gap: 6px;
+        }
+        .label-text svg, .mini-icon { width: 12px; height: 12px; opacity: 0.6; } /* Tiny icons in-line */
+        .val-text { font-size: 9px; color: var(--text-muted); font-weight: 600; }
+
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; height: 2px; border-radius: 2px; background: rgba(255,255,255,0.15); outline: none; }
-        input[type=range]::-webkit-slider-thumb { height: 18px; width: 18px; border-radius: 50%; background: #fff; cursor: pointer; -webkit-appearance: none; margin-top: -8px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        input[type=range]::-webkit-slider-thumb { height: 16px; width: 16px; border-radius: 50%; background: #fff; cursor: pointer; -webkit-appearance: none; margin-top: -7px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
-        .category-tab { padding: 8px 18px; border-radius: 30px; background: transparent; border: 1px solid transparent; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: 0.3s ease; color: var(--text-muted); }
-        .category-tab.active { background: rgba(255,255,255,0.1); border-color: var(--border); color: #fff; }
+        /* --- FOOTER COMPACTION --- */
+        .compact-footer { 
+            display: flex; justify-content: flex-end; align-items: center; 
+            margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); 
+        }
 
-        .item-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; }
-        .item-row:hover { background: rgba(255,255,255,0.08); }
+        /* --- OTHER ELEMENTS --- */
+        .h-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 5px 10px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+        .h-scroll::-webkit-scrollbar { display: none; }
+        .face-card { width: 75px; height: 75px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); flex-shrink: 0; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; font-size: 9px; letter-spacing: 1px; cursor: pointer; transition: 0.4s; text-transform: uppercase; }
+        .face-card.selected { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); box-shadow: 0 8px 20px rgba(0,0,0,0.3); transform: scale(1.05); }
 
-        .segmented-control { display: flex; background: rgba(0,0,0,0.3); border-radius: 14px; padding: 4px; margin-bottom: 15px; border: 1px solid var(--border); }
-        .seg-btn { flex: 1; padding: 10px 0; background: transparent; border: none; border-radius: 10px; color: var(--text-muted); font-size: 9px; font-family: 'Montserrat'; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-weight: 500; }
-        .seg-btn.active { background: rgba(255,255,255,0.15); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-
-        /* --- NAV --- */
         #main-nav { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 320px; height: 60px; background: rgba(15, 15, 15, 0.85); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border-radius: 100px; border: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
         .nav-item { color: rgba(255,255,255,0.3); font-size: 10px; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: 0.3s; padding: 10px 20px; border-radius: 30px; }
         .nav-item.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.08); }
@@ -117,10 +95,8 @@
                 <button class="icon-btn done" onclick="closeAll()">✓</button>
             </div>
         </div>
-        <div class="scroll-container">
-            <div class="h-scroll">
-                <div class="face-card selected">Face 1</div><div class="face-card">Face 2</div><div class="face-card">Face 3</div><div class="face-card">Face 4</div><div class="face-card">Face 5</div><div class="face-card">Face 6</div><div class="face-card">Face 7</div><div class="face-card">Face 8</div><div class="face-card">Face 9</div><div class="face-card">Face 10</div>
-            </div>
+        <div class="h-scroll">
+            <div class="face-card selected">Face 1</div><div class="face-card">Face 2</div><div class="face-card">Face 3</div><div class="face-card">Face 4</div><div class="face-card">Face 5</div><div class="face-card">Face 6</div><div class="face-card">Face 7</div><div class="face-card">Face 8</div><div class="face-card">Face 9</div><div class="face-card">Face 10</div>
         </div>
     </div>
 
@@ -134,53 +110,73 @@
                 <button class="icon-btn done" onclick="closeAll()">✓</button>
             </div>
         </div>
-        <div class="slider-group"><div class="icon-slot">SVG</div><div class="slider-wrapper"><div class="slider-label">Frame Build <span>50</span></div><input type="range" min="0" max="100" value="50"></div></div>
-        <div class="slider-group"><div class="icon-slot">SVG</div><div class="slider-wrapper"><div class="slider-label">Height <span>50</span></div><input type="range" min="0" max="100" value="50"></div></div>
-        <div class="slider-group"><div class="icon-slot">SVG</div><div class="slider-wrapper"><div class="slider-label">Body Fat % <span>30</span></div><input type="range" min="0" max="100" value="30"></div></div>
-        <div class="slider-group"><div class="icon-slot">SVG</div><div class="slider-wrapper"><div class="slider-label">Muscle Mass <span>60</span></div><input type="range" min="0" max="100" value="60"></div></div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0px; padding-top: 15px; border-top: 1px solid var(--border);">
-            <span style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Micro Adjustments</span>
-            <button class="icon-btn" style="width: 28px; height: 28px;" onclick="navTo('panel-body-refine')">➔</button>
+        
+        <div class="body-grid">
+            <div class="slider-group">
+                <div class="label-row">
+                    <div class="label-text">
+                        <span class="mini-icon">S</span> Frame
+                    </div>
+                    <div class="val-text">50</div>
+                </div>
+                <input type="range" min="0" max="100" value="50">
+            </div>
+
+            <div class="slider-group">
+                <div class="label-row">
+                    <div class="label-text">
+                        <span class="mini-icon">S</span>
+                        Height
+                    </div>
+                    <div class="val-text">50</div>
+                </div>
+                <input type="range" min="0" max="100" value="50">
+            </div>
+
+            <div class="slider-group">
+                <div class="label-row">
+                    <div class="label-text">
+                        <span class="mini-icon">S</span>
+                        Fat %
+                    </div>
+                    <div class="val-text">30</div>
+                </div>
+                <input type="range" min="0" max="100" value="30">
+            </div>
+
+            <div class="slider-group">
+                <div class="label-row">
+                    <div class="label-text">
+                        <span class="mini-icon">S</span>
+                        Muscle
+                    </div>
+                    <div class="val-text">60</div>
+                </div>
+                <input type="range" min="0" max="100" value="60">
+            </div>
+        </div>
+
+        <div class="compact-footer">
+            <button class="icon-btn" style="width: 28px; height: 28px; border-radius: 8px;" onclick="navTo('panel-body-refine')">➔</button>
         </div>
     </div>
 
     <div id="panel-body-refine" class="panel">
         <div class="header-title">
             <button class="icon-btn" style="width: 28px; height: 28px;" onclick="navTo('panel-body')">←</button>
-            <span>Refinement</span>
-            <button class="icon-btn done" onclick="closeAll()" title="Done">✓</button>
+            <span>Refine</span>
+            <button class="icon-btn done" onclick="closeAll()">✓</button>
         </div>
-        <div class="h-scroll" style="padding-bottom: 15px;">
+        <div class="h-scroll" style="padding-bottom: 10px;">
             <div class="category-tab active">Neck</div><div class="category-tab">Shoulders</div><div class="category-tab">Arms</div><div class="category-tab">Torso</div><div class="category-tab">Legs</div>
         </div>
-        <div class="slider-group"><div class="slider-wrapper"><div class="slider-label">Neck Length</div><input type="range" min="0" max="100" value="50"></div></div>
-        <div class="slider-group"><div class="slider-wrapper"><div class="slider-label">Neck Thickness</div><input type="range" min="0" max="100" value="50"></div></div>
-    </div>
-
-    <div id="panel-wardrobe" class="panel">
-        <div class="header-title">Collection 2026<button class="icon-btn done" onclick="closeAll()" title="Done">✓</button></div>
-        <div class="item-row" onclick="navTo('panel-cloth-actions')">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div class="icon-slot" style="margin: 0; width: 36px; height: 36px; border-style: solid;">IMG</div>
-                <span class="item-title">Leather Bomber</span>
-            </div>
-            <span style="color: var(--text-muted);">➔</span>
+        <div class="slider-group" style="margin-bottom: 15px;">
+            <div class="label-row"><div class="label-text">Length</div><div class="val-text">50</div></div>
+            <input type="range" min="0" max="100" value="50">
         </div>
-    </div>
-
-    <div id="panel-cloth-actions" class="panel">
-        <div class="header-title">
-            <button class="icon-btn" style="width: 28px; height: 28px;" onclick="navTo('panel-wardrobe')">←</button>
-            <span style="color: #fff;">LEATHER BOMBER</span>
-            <button class="icon-btn done" onclick="closeAll()" title="Done">✓</button>
-        </div>
-        <div class="segmented-control">
-            <button class="seg-btn active">Visible</button><button class="seg-btn">Simulate</button><button class="seg-btn">Strain Map</button>
-        </div>
-        <div class="header-title" style="margin-bottom: 12px; margin-top: 15px; font-size: 9px;">Posture Check</div>
-        <div class="h-scroll">
-            <div class="face-card selected" style="height: 55px; border-radius: 12px;">A-Pose</div>
-            <div class="face-card" style="height: 55px; border-radius: 12px;">Walk</div>
+        <div class="slider-group">
+            <div class="label-row"><div class="label-text">Thickness</div><div class="val-text">50</div></div>
+            <input type="range" min="0" max="100" value="50">
         </div>
     </div>
 
@@ -214,18 +210,17 @@
             if(target) target.classList.add('active');
         }
 
-        document.querySelectorAll('.category-tab, .face-card, .seg-btn').forEach(el => {
+        document.querySelectorAll('.face-card').forEach(el => {
             el.addEventListener('click', (e) => {
-                const parent = e.target.closest('.h-scroll') || e.target.parentElement;
-                parent.querySelectorAll('.' + e.target.className.split(' ')[0]).forEach(c => c.classList.remove('selected', 'active'));
-                e.target.classList.add(e.target.className.includes('seg-btn') ? 'active' : 'selected');
+                e.target.parentElement.querySelectorAll('.face-card').forEach(c => c.classList.remove('selected'));
+                e.target.classList.add('selected');
             });
         });
 
         document.querySelectorAll('input[type=range]').forEach(slider => {
             slider.addEventListener('input', (e) => {
-                const span = e.target.parentElement.querySelector('.slider-label span');
-                if(span) span.innerText = e.target.value;
+                const valDisplay = e.target.parentElement.querySelector('.val-text');
+                if(valDisplay) valDisplay.innerText = e.target.value;
             });
         });
     </script>
