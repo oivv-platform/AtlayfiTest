@@ -310,7 +310,6 @@
         /* --- SCROLLBOX (Fixed Fade System) --- */
         .scroll-container {
             position: relative;
-            margin-top: 5px;
         }
 
         .h-scroll {
@@ -408,6 +407,16 @@
             box-shadow:
                 0 15px 35px rgba(0, 0, 0, 0.6),
                 inset 0 1.5px 2px rgba(255, 255, 255, 0.12);
+
+            transition: transform var(--transition-bounce), opacity 0.4s ease;
+            will-change: transform, opacity;
+        }
+
+        #main-nav.hidden {
+            opacity: 0;
+            pointer-events: none;
+            /* Slides down 60px from its original position */
+            transform: translate(-50%, 60px);
         }
 
         .nav-item {
@@ -603,7 +612,7 @@
 
     <div id="fake-ue5-bg">METAHUMAN VIEWPORT</div>
 
-    <div id="panel-face" class="panel active">
+    <div id="panel-face" class="panel">
         <div class="header-title">
             <div class="header-controls">
                 <div class="button-group-pill">
@@ -887,7 +896,7 @@
     </div>
 
     <nav id="main-nav">
-        <div class="nav-item active" id="nav-avatar" onclick="toggleNav('avatar', 'panel-face')">Avatar</div>
+        <div class="nav-item" id="nav-avatar" onclick="toggleNav('avatar', 'panel-face')">Avatar</div>
         <div class="nav-item" id="nav-wardrobe" onclick="toggleNav('wardrobe', 'panel-wardrobe')">Wardrobe</div>
     </nav>
 
@@ -908,12 +917,16 @@
             setTimeout(() => {
                 document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
             }, 300);
+            // 🚨 2. Slide the Nav Bar back UP/In
+            document.getElementById('main-nav').classList.remove('hidden');
         }
 
         function navTo(panelId) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             const target = document.getElementById(panelId);
             if (target) target.classList.add('active');
+            // 🚨 3. Slide the Nav Bar Down/Out
+            document.getElementById('main-nav').classList.add('hidden');
         }
 
         function navToBody(viewType) {
