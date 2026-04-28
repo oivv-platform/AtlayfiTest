@@ -1024,13 +1024,6 @@
         });
 
         document.querySelectorAll('input[type=range]').forEach(slider => {
-            slider.addEventListener('input', (e) => {
-                const span = e.target.closest('.slider-group').querySelector('.val-text');
-                if (span) span.innerText = e.target.value;
-            });
-        });
-
-        document.querySelectorAll('input[type=range]').forEach(slider => {
             const handleCapture = (e) => {
                 const rect = slider.getBoundingClientRect();
                 // The thumb width in our CSS is 12px for better grab
