@@ -37,20 +37,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        #fake-ue5-bg {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
-            z-index: -1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.03);
-            font-size: 26px;
-            font-weight: 500;
-            letter-spacing: 12px;
-        }
-
         /* --- THE UNIVERSAL PANEL DESIGN --- */
         .panel {
             position: absolute;
@@ -166,47 +152,11 @@
             box-shadow: 0 12px 12px rgba(255, 200, 50, 0.15);
         }
 
-        /* MORPHING HEADER PILL */
-        .body-group-container {
-            display: flex;
-            align-items: center;
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 100px;
-            padding: 0;
-            gap: 0;
-            transition: all var(--transition-bounce);
-        }
-
-        .body-group-container.expanded {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
-            padding: 1px;
-            gap: 6px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-gear {
-            width: 0;
-            opacity: 0;
-            overflow: hidden;
-            border: none !important;
-            pointer-events: none;
-            transition: width var(--transition-bounce), opacity 0.3s ease;
-            margin: 0;
-        }
-
-        .body-group-container.expanded .btn-gear {
-            width: 34px;
-            opacity: 1;
-            pointer-events: auto;
-        }
-
         /* --- COMPACT GRID --- */
         .body-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px 15px;
+            gap: 25px 20px;
             margin-bottom: 0;
             margin-top: 20px;
         }
@@ -238,27 +188,6 @@
             color: var(--text-muted);
             font-weight: 600;
             font-variant-numeric: tabular-nums;
-        }
-
-        .slider-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .icon-slot {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            opacity: 0.8;
-        }
-
-        .icon-slot svg {
-            width: 100%;
-            height: 100%;
         }
 
 
@@ -519,13 +448,6 @@
             pointer-events: auto;
         }
 
-        /* Make sure the active gear button looks pressed */
-        .btn-gear.active {
-            background: #fff;
-            color: #000;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-        }
-
         /* --- DYNAMIC HEADER SYSTEM --- */
         .header-dynamic-wrapper {
             display: block;
@@ -680,8 +602,6 @@
 
 <body>
 
-    <div id="fake-ue5-bg">METAHUMAN VIEWPORT</div>
-
     <div id="panel-face" class="panel">
         <div class="header-title">
             <div class="header-controls">
@@ -729,9 +649,6 @@
                         <button class="group-btn tape" onclick="this.classList.toggle('active')">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M7.67883 11.9723C7.67883 8.55133 13.0422 6.97597 16.1971 6.97597C19.352 6.97597 24.0965 9.15295 24.0965 11.9519M29.1322 11.0189C29.1322 16 23.0584 20.0379 15.5661 20.0379M29.1322 11.0189C29.1322 6.03792 23.0584 2 15.5661 2C8.07374 2 2 6.03792 2 11.0189M29.1322 11.0189C29.1322 11.0189 28.5012 17.8609 27.5547 19.4159C26.6082 20.9709 25.6618 21.2819 25.6618 21.2819M15.5661 20.0379C8.07374 20.0379 2 16 2 11.0189M15.5661 20.0379C15.5661 20.0379 21.4697 19.4981 24.7153 20.9709C27.1698 22.0847 29.6061 24.0809 29.7641 24.3919C30.0786 25.0109 30.0786 29.7744 29.7641 29.9898C29.4495 30.2052 27.3692 26.9439 24.7153 25.6359C21.5195 24.0607 15.567 24.3919 15.567 24.3919C15.567 24.3919 7.99429 24.7029 4.22149 20.3489C2.38099 18.2249 2 11.0189 2 11.0189M27.2392 27.5018V25.6359M25.0308 25.8018V22.5259M22.8224 24.9699V23.1479M20.2984 24.3919V21.2819M17.7745 24.3737V22.8369M15.2506 24.3919V21.2819M12.7267 24.2312V22.8369M10.2027 23.7699V20.6599M7.67883 22.8369V21.5929M5.47039 21.5314V18.4829M24.7153 9.77495C24.7153 13.0384 20.7603 15.6839 15.8816 15.6839C11.0028 15.6839 7.04785 13.0384 7.04785 9.77495C7.04785 6.51152 11.0028 3.86599 15.8816 3.86599C20.7603 3.86599 24.7153 6.51152 24.7153 9.77495Z"
-                                    stroke="currentColor" stroke-linecap="round" />
                                 <path
                                     d="M7.67883 11.9723C7.67883 8.55133 13.0422 6.97597 16.1971 6.97597C19.352 6.97597 24.0965 9.15295 24.0965 11.9519M29.1322 11.0189C29.1322 16 23.0584 20.0379 15.5661 20.0379M29.1322 11.0189C29.1322 6.03792 23.0584 2 15.5661 2C8.07374 2 2 6.03792 2 11.0189M29.1322 11.0189C29.1322 11.0189 28.5012 17.8609 27.5547 19.4159C26.6082 20.9709 25.6618 21.2819 25.6618 21.2819M15.5661 20.0379C8.07374 20.0379 2 16 2 11.0189M15.5661 20.0379C15.5661 20.0379 21.4697 19.4981 24.7153 20.9709C27.1698 22.0847 29.6061 24.0809 29.7641 24.3919C30.0786 25.0109 30.0786 29.7744 29.7641 29.9898C29.4495 30.2052 27.3692 26.9439 24.7153 25.6359C21.5195 24.0607 15.567 24.3919 15.567 24.3919C15.567 24.3919 7.99429 24.7029 4.22149 20.3489C2.38099 18.2249 2 11.0189 2 11.0189M27.2392 27.5018V25.6359M25.0308 25.8018V22.5259M22.8224 24.9699V23.1479M20.2984 24.3919V21.2819M17.7745 24.3737V22.8369M15.2506 24.3919V21.2819M12.7267 24.2312V22.8369M10.2027 23.7699V20.6599M7.67883 22.8369V21.5929M5.47039 21.5314V18.4829M24.7153 9.77495C24.7153 13.0384 20.7603 15.6839 15.8816 15.6839C11.0028 15.6839 7.04785 13.0384 7.04785 9.77495C7.04785 6.51152 11.0028 3.86599 15.8816 3.86599C20.7603 3.86599 24.7153 6.51152 24.7153 9.77495Z"
                                     stroke="currentColor" stroke-linecap="round" />
