@@ -206,23 +206,23 @@
         .body-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px 15px;
+            gap: 25px 15px;
             margin-bottom: 0;
+            margin-top: 20px;
         }
 
         .span-full {
             grid-column: span 2;
         }
 
-        .slider-group {
-            width: 100%;
-        }
-
         .label-row {
+            position: absolute;
+            top: -20px;
+            /* Moves labels above the ruler baseline */
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
         }
 
         .label-text {
@@ -261,50 +261,82 @@
             height: 100%;
         }
 
-        /* --- PRECISION RULER SYSTEM (FIXED PITCH & DOWNWARD TICKS) --- */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-            height: 44px;
-            /* Increased hit area for easier grabbing */
-            outline: none;
-            margin: 0;
-            padding: 0;
-        }
 
-        input[type=range]::-webkit-slider-runnable-track {
+        /* --- THE ULTIMATE PRECISION RULER SYSTEM --- */
+
+        /* 1. The Container handles the visual Ruler */
+        .slider-group {
+            position: relative;
             width: 100%;
-            height: 18px;
+            /* Baseline at TOP, Ticks hanging DOWN */
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            /* Side borders for the "Long" start and end lines */
             border-left: 1px solid rgba(255, 255, 255, 0.6);
             border-right: 1px solid rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
-            /* Baseline at TOP */
 
-            /* Using FIXED pixels for background-size to prevent scaling */
+            /* Ruler Ticks (Fixed Pitch) */
             background-image:
                 repeating-linear-gradient(to right, rgba(255, 255, 255, 0.6) 0, rgba(255, 255, 255, 0.6) 1px, transparent 1px, transparent 40px),
                 repeating-linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.2) 1px, transparent 1px, transparent 10px);
 
             background-position: left top;
-            /* 🚨 FIX: Set background-size to fixed pixels, NOT 100% */
-            background-size: 40px 12px, 10px 7px;
+            background-size: 40px 10px, 8px 5px;
             background-repeat: repeat-x;
+
+            /* Ensure room for the label above and the slider below */
+            margin-bottom: 10px;
+            padding-top: 15px;
+            /* Adjust this to move the label text up */
         }
 
+        /* 2. The Slider: Invisible track, sitting exactly on the baseline */
+        input[type=range] {
+            -webkit-appearance: none;
+            position: absolute;
+            top: -1px;
+            /* Align exactly to the container's top border */
+            /* 🚨 The Secret: Wider than container so the needle center hits the edges */
+            width: calc(100% + 44px);
+            left: -22px;
+
+            background: transparent;
+            height: 20px;
+            outline: none;
+            margin: 0;
+            padding: 0;
+            z-index: 2;
+            touch-action: none;
+        }
+
+        /* 3. The Track: Must be invisible so it doesn't cover our container ruler */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+        }
+
+        /* 4. The Thumb: 44px Grab / 4px Visual Needle */
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 6px;
-            /* Widened for better touch response */
-            height: 32px;
-            background: #ffffff;
-            margin-top: -8px;
-            /* Centers the 32px needle over 18px track */
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-            border-radius: 1px;
+            width: 44px;
+            height: 20px;
             cursor: grab;
-            position: relative;
-            z-index: 10;
+            background: transparent;
+
+            /* The 4px Needle */
+            background-image: linear-gradient(to right,
+                    transparent 20px,
+                    #ffffff 20px,
+                    #ffffff 24px,
+                    transparent 24px);
+
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+        }
+
+        input[type=range]:active::-webkit-slider-thumb {
+            cursor: grabbing;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
         }
 
         /* --- SCROLLBOX (Fixed Fade System) --- */
