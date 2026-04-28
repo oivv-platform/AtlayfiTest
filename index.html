@@ -190,6 +190,16 @@
             font-variant-numeric: tabular-nums;
         }
 
+        .group-btn svg {
+            display: block;
+            width: 16px;
+            /* Control the visual size of the icon here */
+            height: 16px;
+            flex-shrink: 0;
+            pointer-events: none;
+            /* Ensures the SVG doesn't steal clicks from the button */
+        }
+
 
         /* --- THE ULTIMATE PRECISION RULER SYSTEM --- */
 
@@ -647,7 +657,16 @@
                             <button class="group-btn active" id="btn-body-main"
                                 onclick="switchBodyView('main')">BODY</button>
                             <button class="group-btn" id="btn-body-refine" onclick="switchBodyView('refine')"
-                                style="padding: 4px 12px;">⚙</button>
+                                style="padding: 4px 12px;"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 7H28.5" stroke="white" stroke-linecap="round" />
+                                    <path d="M4 16H28.5" stroke="white" stroke-linecap="round" />
+                                    <path d="M4 25H28.5" stroke="white" stroke-linecap="round" />
+                                    <rect x="9" y="2" width="2" height="10" fill="white" />
+                                    <rect x="22" y="11" width="2" height="10" fill="white" />
+                                    <rect x="15" y="20" width="2" height="10" fill="white" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     <div class="header-controls">
