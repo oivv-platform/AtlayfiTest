@@ -35,7 +35,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ─── UNIVERSAL PANEL ─────────────────────────────────── */
+        /* ─── UNIVERSAL PANEL ─── */
         .panel {
             position: absolute;
             bottom: 20px;
@@ -47,7 +47,6 @@
             border: 1px solid var(--border);
             border-radius: 28px;
             padding: 20px;
-            /* extra top padding so hover-lift buttons never clip against border-radius */
             padding-top: 22px;
             width: calc(100% - 40px);
             max-width: 380px;
@@ -70,6 +69,11 @@
             transform: translate3d(-50%, 0, 0) scale(1);
         }
 
+        /* Simulation panel is single-row — needs tighter padding */
+        #panel-simulation {
+            padding: 14px 16px;
+        }
+
         .header-title {
             font-size: 11px;
             font-weight: 600;
@@ -88,7 +92,7 @@
             align-items: center;
         }
 
-        /* ─── ICON BUTTONS ──────────────────────────────────────── */
+        /* ─── ICON BUTTONS ─── */
         .icon-btn {
             min-width: 34px;
             height: 34px;
@@ -134,7 +138,7 @@
             box-shadow: 0 12px 12px rgba(255, 200, 50, 0.15);
         }
 
-        /* ─── NAV WRAPPER (replaces absolute nav positioning) ──── */
+        /* ─── NAV WRAPPER ─── */
         #nav-wrapper {
             position: absolute;
             bottom: 20px;
@@ -159,13 +163,14 @@
             border: 1px solid var(--border);
             display: flex;
             align-items: center;
-            padding: 0 10px;
-            gap: 10px;
+            padding: 4px;
+            gap: 0;
             box-shadow:
                 0 15px 35px rgba(0, 0, 0, 0.6),
                 inset 0 1.5px 2px rgba(255, 255, 255, 0.12);
         }
 
+        /* Both nav items forced to same width */
         .nav-item {
             color: rgba(255, 255, 255, 0.4);
             font-family: 'Montserrat', sans-serif;
@@ -174,7 +179,9 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
-            padding: 4px 12px;
+            /* Fixed equal width — both match the wider "Wardrobe" label */
+            width: 102px;
+            height: 30px;
             border-radius: 100px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -183,6 +190,7 @@
             align-items: center;
             justify-content: center;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-item:hover {
@@ -203,55 +211,75 @@
             box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
-        /* ─── LIVE CIRCLE BUTTON ────────────────────────────────── */
+        /* ─── LIVE / SIM BUTTON (collapses inside nav) ─── */
         #live-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(18, 18, 18, 0.45);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid rgba(74, 222, 128, 0.35);
-            color: rgba(74, 222, 128, 0.7);
+            /* Collapsed = zero width, invisible, no pointer events */
             display: flex;
             align-items: center;
             justify-content: center;
+            height: 30px;
+            width: 0;
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 100px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: transparent;
             cursor: pointer;
-            box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.6),
-                inset 0 1.5px 2px rgba(255, 255, 255, 0.08);
             outline: none;
-            position: absolute;
-            left: calc(100% + 10px);
-            top: 0;
-            /* hidden by default */
+            flex-shrink: 0;
+            padding: 0;
+            margin: 0;
             opacity: 0;
-            transform: scale(0.5);
             pointer-events: none;
-            transition: opacity var(--transition-bounce), transform var(--transition-bounce), background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+            transition:
+                width var(--transition-bounce),
+                margin var(--transition-bounce),
+                opacity 0.35s ease,
+                background 0.3s,
+                border-color 0.3s,
+                color 0.3s,
+                box-shadow 0.3s;
         }
 
+        /* Visible: expands inside nav bar between the two items */
         #live-btn.visible {
+            width: 30px;
+            margin: 0 4px;
             opacity: 1;
-            transform: scale(1);
             pointer-events: auto;
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.65);
         }
 
         #live-btn.active {
-            color: #4ade80;
-            background: rgba(74, 222, 128, 0.15);
-            border-color: rgba(74, 222, 128, 0.5);
-            box-shadow: 0 0 20px rgba(74, 222, 128, 0.18), inset 0 1.5px 2px rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.22);
+            color: #fff;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
         #live-btn:hover {
-            color: #4ade80;
-            background: rgba(74, 222, 128, 0.1);
-            border-color: rgba(74, 222, 128, 0.5);
-            transform: scale(1.06) translateY(-1px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.18);
+            color: #fff;
         }
 
-        /* ─── COMPACT GRID ──────────────────────────────────────── */
+        /* Breathing pulse on first appearance */
+        @keyframes pulseWhite {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 0 5px rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* ─── COMPACT GRID ─── */
         .body-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -297,7 +325,7 @@
             pointer-events: none;
         }
 
-        /* ─── PRECISION RULER SLIDERS ───────────────────────────── */
+        /* ─── PRECISION RULER SLIDERS ─── */
         .slider-group {
             position: relative;
             width: 100%;
@@ -343,9 +371,7 @@
             cursor: grab;
             background: transparent;
             background-image: linear-gradient(to right,
-                    transparent 20px,
-                    #ffffff 20px, #ffffff 24px,
-                    transparent 24px);
+                    transparent 20px, #ffffff 20px, #ffffff 24px, transparent 24px);
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
         }
 
@@ -354,7 +380,7 @@
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
         }
 
-        /* ─── SCROLL CONTAINERS ─────────────────────────────────── */
+        /* ─── SCROLL CONTAINERS ─── */
         .scroll-container {
             position: relative;
             border: 1px solid var(--border);
@@ -379,7 +405,7 @@
             display: none;
         }
 
-        /* ─── FACE CARDS ────────────────────────────────────────── */
+        /* ─── FACE CARDS ─── */
         .face-card {
             width: 75px;
             height: 75px;
@@ -414,7 +440,7 @@
             font-weight: 600;
         }
 
-        /* ─── CLOTH CARDS (square) ──────────────────────────────── */
+        /* ─── CLOTH CARDS (square) ─── */
         .cloth-card {
             width: 80px;
             height: 80px;
@@ -441,15 +467,38 @@
             color: #fff;
         }
 
-        .cloth-card.selected {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-            transform: scale(1.06);
-            color: #fff;
+        /* ─── CLOTH DETAIL GRID (image + info side by side) ─── */
+        .cloth-detail-grid {
+            display: grid;
+            grid-template-columns: 82px 1fr;
+            gap: 14px;
+            padding-top: 12px;
         }
 
-        /* ─── EQUIP CIRCLE BUTTON ───────────────────────────────── */
+        /* Square cloth image placeholder */
+        .cloth-detail-img {
+            width: 82px;
+            height: 82px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.15);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        /* Right column: size + color stacked */
+        .cloth-detail-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        /* ─── EQUIP CIRCLE BUTTON ─── */
         .equip-circle-btn {
             width: 34px;
             height: 34px;
@@ -476,7 +525,7 @@
             transform: scale(0.93);
         }
 
-        /* ─── CATEGORY TABS ─────────────────────────────────────── */
+        /* ─── CATEGORY TABS ─── */
         .category-tab {
             padding: 8px 18px;
             border-radius: 30px;
@@ -494,7 +543,7 @@
             color: #fff;
         }
 
-        /* ─── VIEW SWAPPING ─────────────────────────────────────── */
+        /* ─── VIEW SWAPPING ─── */
         .view-container {
             display: grid;
             width: 100%;
@@ -517,7 +566,7 @@
             pointer-events: auto;
         }
 
-        /* ─── DYNAMIC HEADER ────────────────────────────────────── */
+        /* ─── DYNAMIC HEADER ─── */
         .header-dynamic-wrapper {
             display: block;
             width: 100%;
@@ -576,7 +625,7 @@
             white-space: nowrap;
         }
 
-        /* ─── REFINE CATEGORIES ─────────────────────────────────── */
+        /* ─── REFINE CATEGORIES ─── */
         .refine-category {
             display: none;
             width: 100%;
@@ -653,25 +702,130 @@
             color: #fbbf24 !important;
         }
 
-        /* ─── WARDROBE DETAIL ───────────────────────────────────── */
+        /* ─── WARDROBE DETAIL ─── */
         .selection-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
-        .swatch-group {
+        /* ─── SIZE SCROLL PILL ─── */
+        .size-scroll-pill {
+            /* max-width: comfortably shows 4 size tags, rest scroll */
+            max-width: 148px;
+            height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .size-scroll-pill .size-scroll-inner {
             display: flex;
-            gap: 10px;
-            padding-right: 2px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            height: 100%;
+            padding: 4px 4px;
+            gap: 2px;
+            align-items: center;
+            scroll-snap-type: x mandatory;
+        }
+
+        .size-scroll-pill .size-scroll-inner::-webkit-scrollbar {
+            display: none;
+        }
+
+        .size-btn {
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            outline: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+
+        .size-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .size-btn:hover:not(.active) {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* ─── COLOR SCROLL ─── */
+        .color-scroll-wrap {
+            position: relative;
+            max-width: 140px;
+            flex-shrink: 0;
+            /* pseudo-element gradients for fade edges */
+        }
+
+        .color-scroll-wrap::before,
+        .color-scroll-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 22px;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .color-scroll-wrap::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(14, 14, 14, 0.85), transparent);
+        }
+
+        .color-scroll-wrap::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(14, 14, 14, 0.85), transparent);
+        }
+
+        /* Show fades only when there is actually overflow */
+        .color-scroll-wrap.fade-left::before {
+            opacity: 1;
+        }
+
+        .color-scroll-wrap.fade-right::after {
+            opacity: 1;
+        }
+
+        .color-scroll-inner {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+            gap: 8px;
+            padding: 3px 2px;
+            align-items: center;
+        }
+
+        .color-scroll-inner::-webkit-scrollbar {
+            display: none;
         }
 
         .swatch {
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             border: 2px solid transparent;
             cursor: pointer;
+            flex-shrink: 0;
             transition: 0.3s;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
@@ -681,11 +835,12 @@
             transform: scale(1.1);
         }
 
-        /* ─── SIMULATION ICON BUTTONS ───────────────────────────── */
+        /* ─── SIMULATION ICON BUTTONS (strict toggle, no default active) ─── */
         .sim-controls-row {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .sim-icon-btn {
@@ -702,12 +857,19 @@
             transition: all var(--transition-bounce);
             outline: none;
             flex-shrink: 0;
+            transition:
+                width var(--transition-bounce),
+                margin var(--transition-bounce),
+                opacity 0.35s ease,
+                background 0.3s,
+                border-color 0.3s,
+                color 0.3s,
+                box-shadow 0.3s;
         }
 
         .sim-icon-btn:hover {
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
-            transform: translateY(-1px);
         }
 
         .sim-icon-btn.active {
@@ -717,17 +879,43 @@
             box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.12);
         }
 
-        /* ─── POSE CARDS (compact) ──────────────────────────────── */
+        #btn-cloth-sim.active {
+            animation: pulseWhite 1.8s ease-in-out infinite;
+        }
+
+        /* ─── POSE SCROLL PILL (inside sim panel header) ─── */
+        .pose-scroll-pill {
+            flex: 1;
+            min-width: 0;
+            height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .pose-scroll-pill .h-scroll {
+            height: 100%;
+            padding: 0 12px;
+            gap: 8px;
+            align-items: center;
+            /* reset mask to look right inside the pill */
+            -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+        }
+
+        /* Compact pose tags for the single-row sim panel */
         .pose-card {
-            padding: 0 14px;
-            height: 36px;
-            border-radius: 10px;
+            padding: 0 10px;
+            height: 22px;
+            border-radius: 6px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border);
             display: flex;
             align-items: center;
             white-space: nowrap;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
@@ -748,104 +936,47 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes pulseGreen {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
-            }
+        /* Sim panel single row container */
+        .sim-panel-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- ─── NAV WRAPPER ────────────────────────────────────────── -->
+    <!-- ─── NAV WRAPPER ─── -->
     <div id="nav-wrapper">
         <nav id="main-nav">
             <div class="nav-item" id="nav-avatar" onclick="toggleNav('avatar', 'panel-face')">Avatar</div>
+
+            <!-- Live/sim button lives BETWEEN the two nav items, collapses to zero when hidden -->
+            <button id="live-btn" onclick="toggleNav('sim', 'panel-simulation')">
+                <svg width="14" height="14" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M8.5 17.5C8.5 17.5 6.80683 19.5446 6.50018 19.5C4.44585 19.2012 2.3669 16.8148 2.00107 15.5C1.88901 15.0972 4.91854 11.2479 6.94502 8.4504C8.22222 6.68731 12.9392 6.05977 12.9392 6.05977C12.9392 6.05977 13.9241 8.83888 17.2167 8.83888C20.6536 8.83888 22.0008 6 22.0008 6"
+                        stroke="currentColor" stroke-linecap="round" stroke-dasharray="2 2" />
+                    <path
+                        d="M26 29.5852C23.9759 29.1856 22.8237 29.0236 20.5438 29.0857C16.877 29.1856 15.8502 30.1301 11.0393 29.9848C9.39197 29.9351 6.74038 29.5103 7.02053 28.8859C8.01787 26.6629 8.39358 24.4694 8.56635 23.378C8.80941 21.8428 8.89159 19.4231 8.5 17C8.3017 15.7729 8.5 14.5 8.5 14.5"
+                        stroke="currentColor" stroke-linecap="round" stroke-dasharray="2 2" />
+                    <path d="M22 6C22 6 24.9529 6.65201 26.6511 7.62935C27.5105 8.12397 29 12 29 12"
+                        stroke="currentColor" stroke-linecap="round" />
+                    <path
+                        d="M28 29C28 29 27.2565 27.5442 26.4028 26.9723C25.3627 26.2754 24.5152 26.1925 23.5388 25.4904C22.423 24.6882 22.2898 24.0433 21.3357 23.0727C20.5645 22.2882 20.4545 22.3188 19.2152 21.201C18.7203 20.7545 19.1408 20.023 19.8487 19.8751C20.5566 19.7273 21.2705 20.138 21.8865 20.499C22.623 20.9307 23.0706 21.4869 23.7866 21.8769C24.5026 22.2668 24.9708 21.5942 24.9708 20.889C24.9708 19.8231 23.7866 18.4713 23.5388 18.4713C22.6025 18.4713 21.9573 19.0204 21.3357 18.8352C20.7141 18.6501 20.0124 18.4887 20.0139 17.8734C20.0147 17.5192 20.1826 17.4173 20.5371 17.3014C21.9691 16.8335 22.1343 16.5215 23.7866 16.0276C24.2915 15.8767 25.0449 16.3753 25.4114 16.7815C26.0448 17.4834 27.2565 18.8352 27.2565 18.8352"
+                        stroke="currentColor" stroke-linecap="round" />
+                    <path
+                        d="M13 6C13 6 13.644 5.51782 13.8842 5.10501C14.3419 4.31863 14.1368 3.70659 14.1368 2.83958C14.1368 2.53193 15.8731 2.01748 17.2316 2.00053C18.6614 1.98268 20.5789 2.42006 20.5789 2.83958C20.5789 3.56675 20.5087 4.34051 21.0211 5.10501C21.3015 5.52348 22 6 22 6"
+                        stroke="currentColor" stroke-linecap="round" />
+                </svg>
+            </button>
+
             <div class="nav-item" id="nav-wardrobe" onclick="toggleNav('wardrobe', 'panel-wardrobe')">Wardrobe</div>
         </nav>
-        <!-- Live circle button: appears after wearing a garment -->
-        <button id="live-btn" onclick="toggleNav('sim', 'panel-simulation')">
-            <!-- Placeholder — replace with your SVG -->
-            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M8.5 17.5C8.5 17.5 6.80683 19.5446 6.50018 19.5C4.44585 19.2012 2.3669 16.8148 2.00107 15.5C1.88901 15.0972 4.91854 11.2479 6.94502 8.4504C8.22222 6.68731 12.9392 6.05977 12.9392 6.05977C12.9392 6.05977 13.9241 8.83888 17.2167 8.83888C20.6536 8.83888 22.0008 6 22.0008 6"
-                    stroke="white" stroke-linecap="round" stroke-dasharray="2 2" />
-                <path
-                    d="M26 29.5852C23.9759 29.1856 22.8237 29.0236 20.5438 29.0857C16.877 29.1856 15.8502 30.1301 11.0393 29.9848C9.39197 29.9351 6.74038 29.5103 7.02053 28.8859C8.01787 26.6629 8.39358 24.4694 8.56635 23.378C8.80941 21.8428 8.89159 19.4231 8.5 17C8.3017 15.7729 8.5 14.5 8.5 14.5"
-                    stroke="white" stroke-linecap="round" stroke-dasharray="2 2" />
-                <path d="M22 6C22 6 24.9529 6.65201 26.6511 7.62935C27.5105 8.12397 29 12 29 12" stroke="white"
-                    stroke-linecap="round" />
-                <path
-                    d="M14.5671 14C14.5671 14 15.2777 16.024 17.1316 17.2892C18.8426 18.4568 21.616 19.2811 21 19C19.7656 18.4367 19.9425 18.4106 19.0824 17.2892C18.2543 16.2094 17.722 14 17.722 14M17.9787 19.1165C18.0914 19.145 16.4854 19.2147 15.6428 19.6506C14.9177 20.0258 14 21 14 21"
-                    stroke="white" stroke-width="0.5" stroke-linecap="round" />
-                <path
-                    d="M28 29C28 29 27.2565 27.5442 26.4028 26.9723C25.3627 26.2754 24.5152 26.1925 23.5388 25.4904C22.423 24.6882 22.2898 24.0433 21.3357 23.0727C20.5645 22.2882 20.4545 22.3188 19.2152 21.201C18.7203 20.7545 19.1408 20.023 19.8487 19.8751C20.5566 19.7273 21.2705 20.138 21.8865 20.499C22.623 20.9307 23.0706 21.4869 23.7866 21.8769C24.5026 22.2668 24.9708 21.5942 24.9708 20.889C24.9708 19.8231 23.7866 18.4713 23.5388 18.4713C22.6025 18.4713 21.9573 19.0204 21.3357 18.8352C20.7141 18.6501 20.0124 18.4887 20.0139 17.8734C20.0147 17.5192 20.1826 17.4173 20.5371 17.3014C21.9691 16.8335 22.1343 16.5215 23.7866 16.0276C24.2915 15.8767 25.0449 16.3753 25.4114 16.7815C26.0448 17.4834 27.2565 18.8352 27.2565 18.8352"
-                    stroke="white" stroke-linecap="round" />
-                <path
-                    d="M23 16C23 16 22.427 15.4453 22.0704 14.6649C21.9119 14.3181 22.0086 13.494 22.4868 13.162C22.9593 12.834 23.7191 13.0463 24.1523 13.4222C25.8178 14.8672 28.5 18.5 28.5 18.5"
-                    stroke="white" stroke-linecap="round" />
-                <path
-                    d="M25 13.9742C25 13.9742 25.1028 13.4339 25.427 13.1618C25.7993 12.8495 26.5416 13.0196 26.8221 13.4139C28.0179 15.0947 29.1281 17.0836 30.4377 19.5487C31.0925 20.7812 31.6904 24.2828 31.9466 25.1512C32.1812 25.9461 33 27 33 27"
-                    stroke="white" stroke-linecap="round" />
-                <path d="M28 14.5C28 14.5 29.3 13.6573 29.4667 14.3322C29.6905 15.2386 30 18.5 30 18.5" stroke="white"
-                    stroke-linecap="round" />
-                <path
-                    d="M13 6C13 6 13.644 5.51782 13.8842 5.10501C14.3419 4.31863 14.1368 3.70659 14.1368 2.83958C14.1368 2.53193 15.8731 2.01748 17.2316 2.00053C18.6614 1.98268 20.5789 2.42006 20.5789 2.83958C20.5789 3.56675 20.5087 4.34051 21.0211 5.10501C21.3015 5.52348 22 6 22 6"
-                    stroke="white" stroke-linecap="round" />
-                <path d="M15 3C15 3 15.4283 3.63438 15.8092 3.8501C16.4046 4.18737 17 3.8501 17 3.8501" stroke="white"
-                    stroke-linecap="round" />
-                <path
-                    d="M8.14135 31C8.14135 31 8.06051 31.4627 8.00112 31.7226C7.91306 32.108 13.0529 32.9706 16.3323 32.9993C19.8169 33.0297 25 32.0839 25 31.7226C25 31.4577 24.8878 31 24.8878 31"
-                    stroke="white" stroke-linecap="round" />
-                <path
-                    d="M13 6C13 6 13.644 5.51782 13.8842 5.10501C14.3419 4.31863 14.1368 3.70659 14.1368 2.83958C14.1368 2.53193 15.8731 2.01748 17.2316 2.00053C18.6614 1.98268 20.5789 2.42006 20.5789 2.83958C20.5789 3.56675 20.5087 4.34051 21.0211 5.10501C21.3015 5.52348 22 6 22 6"
-                    stroke="white" stroke-linecap="round" />
-                <path
-                    d="M9.4633 11.8013C10.199 11.8331 10.8211 11.2624 10.8529 10.5267C10.8847 9.79102 10.314 9.16887 9.57833 9.13711C8.84263 9.10535 8.22049 9.676 8.18872 10.4117C8.15696 11.1474 8.72761 11.7695 9.4633 11.8013ZM12.7797 14.7843C13.5154 14.816 14.1375 14.2454 14.1693 13.5097C14.2011 12.774 13.6304 12.1518 12.8947 12.1201C12.159 12.0883 11.5369 12.659 11.5051 13.3947C11.4733 14.1304 12.044 14.7525 12.7797 14.7843ZM9.52081 10.4692L9.35363 10.6551L12.67 13.638L12.8372 13.4522L13.0044 13.2663L9.688 10.2833L9.52081 10.4692Z"
-                    fill="white" fill-opacity="0.1" />
-                <path
-                    d="M9.46565 11.8183C10.2013 11.85 10.8235 11.2794 10.8553 10.5437C10.887 9.808 10.3164 9.18585 9.58067 9.15409C8.84498 9.12233 8.22283 9.69298 8.19107 10.4287C8.1593 11.1644 8.72995 11.7865 9.46565 11.8183ZM6.44249 14.3321C7.17818 14.3639 7.80033 13.7932 7.83209 13.0575C7.86386 12.3218 7.29321 11.6997 6.55751 11.6679C5.82182 11.6361 5.19967 12.2068 5.16791 12.9425C5.13614 13.6782 5.70679 14.3003 6.44249 14.3321ZM9.52316 10.4862L9.36332 10.294L6.34016 12.8078L6.5 13L6.65984 13.1922L9.683 10.6784L9.52316 10.4862Z"
-                    fill="white" fill-opacity="0.1" />
-                <path
-                    d="M12.6934 14.8006C13.429 14.8324 14.0512 14.2617 14.083 13.5261C14.1147 12.7904 13.5441 12.1682 12.8084 12.1364C12.0727 12.1047 11.4505 12.6753 11.4188 13.411C11.387 14.1467 11.9577 14.7689 12.6934 14.8006ZM6.44128 14.3321C7.17697 14.3639 7.79912 13.7932 7.83088 13.0575C7.86265 12.3218 7.292 11.6997 6.5563 11.6679C5.82061 11.6362 5.19846 12.2068 5.1667 12.9425C5.13494 13.6782 5.70559 14.3004 6.44128 14.3321ZM12.7509 13.4685L12.7695 13.2192L6.51747 12.7507L6.49879 13L6.48011 13.2493L12.7322 13.7178L12.7509 13.4685Z"
-                    fill="white" fill-opacity="0.1" />
-                <path
-                    d="M11.7232 19.2727C12.4568 19.3364 13.1032 18.7933 13.1668 18.0597C13.2305 17.326 12.6874 16.6797 11.9538 16.616C11.2202 16.5524 10.5738 17.0955 10.5102 17.8291C10.4465 18.5627 10.9896 19.209 11.7232 19.2727ZM11.5828 23.326C12.3164 23.3897 12.9628 22.8466 13.0265 22.113C13.0901 21.3794 12.547 20.733 11.8134 20.6694C11.0798 20.6057 10.4334 21.1488 10.3698 21.8824C10.3061 22.616 10.8492 23.2624 11.5828 23.326ZM11.8385 17.9444L11.5886 17.9357L11.4483 21.9891L11.6981 21.9977L11.948 22.0064L12.0884 17.953L11.8385 17.9444Z"
-                    fill="white" fill-opacity="0.1" />
-                <path
-                    d="M12.6593 14.7305C13.395 14.7623 14.0171 14.1916 14.0489 13.4559C14.0807 12.7203 13.51 12.0981 12.7743 12.0663C12.0386 12.0346 11.4165 12.6052 11.3847 13.3409C11.3529 14.0766 11.9236 14.6988 12.6593 14.7305ZM17.0285 12.5196C17.7642 12.5514 18.3863 11.9807 18.4181 11.245C18.4498 10.5093 17.8792 9.8872 17.1435 9.85544C16.4078 9.82367 15.7856 10.3943 15.7539 11.13C15.7221 11.8657 16.2928 12.4879 17.0285 12.5196ZM12.7168 13.3984L12.8297 13.6215L17.1989 11.4106L17.086 11.1875L16.9731 10.9645L12.6039 13.1754L12.7168 13.3984Z"
-                    fill="white" fill-opacity="0.1" />
-                <path
-                    d="M9.46528 11.8012C10.201 11.833 10.8231 11.2624 10.8549 10.5267C10.8866 9.79096 10.316 9.16882 9.5803 9.13705C8.84461 9.10529 8.22246 9.67594 8.1907 10.4116C8.15894 11.1473 8.72959 11.7695 9.46528 11.8012ZM17.028 12.5207C17.7637 12.5524 18.3859 11.9818 18.4176 11.2461C18.4494 10.5104 17.8787 9.88824 17.143 9.85648C16.4073 9.82472 15.7852 10.3954 15.7534 11.1311C15.7217 11.8668 16.2923 12.4889 17.028 12.5207ZM9.52279 10.4691L9.49912 10.718L17.0619 11.4374L17.0855 11.1886L17.1092 10.9397L9.54647 10.2203L9.52279 10.4691Z"
-                    fill="white" fill-opacity="0.1" />
-                <path opacity="0.01"
-                    d="M9.4796 11.8194C10.2153 11.8512 10.8374 11.2805 10.8692 10.5448C10.901 9.80912 10.3303 9.18698 9.59462 9.15521C8.85893 9.12345 8.23678 9.6941 8.20502 10.4298C8.17325 11.1655 8.7439 11.7876 9.4796 11.8194ZM12.2871 10.4507C13.0228 10.4825 13.6449 9.91185 13.6767 9.17616C13.7085 8.44046 13.1378 7.81832 12.4021 7.78655C11.6664 7.75479 11.0443 8.32544 11.0125 9.06114C10.9808 9.79683 11.5514 10.419 12.2871 10.4507ZM9.53711 10.4873L9.64666 10.712L12.4542 9.34337L12.3446 9.11865L12.2351 8.89393L9.42756 10.2626L9.53711 10.4873Z"
-                    fill="white" fill-opacity="0.1" />
-                <path
-                    d="M11.7034 23.3247C12.437 23.3884 13.0833 22.8453 13.147 22.1117C13.2107 21.3781 12.6676 20.7317 11.9339 20.668C11.2003 20.6044 10.554 21.1475 10.4903 21.8811C10.4266 22.6147 10.9697 23.2611 11.7034 23.3247ZM15.669 24.8513C16.4026 24.915 17.0489 24.3719 17.1126 23.6382C17.1763 22.9046 16.6332 22.2583 15.8995 22.1946C15.1659 22.1309 14.5196 22.674 14.4559 23.4077C14.3922 24.1413 14.9353 24.7876 15.669 24.8513ZM11.8187 21.9964L11.7288 22.2297L15.6944 23.7563L15.7842 23.5229L15.8741 23.2896L11.9085 21.7631L11.8187 21.9964Z"
-                    fill="white" fill-opacity="0.1" />
-                <path
-                    d="M13.8908 12.7132C14.2893 13.3324 14.1102 14.1575 13.4909 14.5559C12.8717 14.9543 12.0466 14.7753 11.6482 14.156C11.2498 13.5367 11.4288 12.7117 12.0481 12.3133C12.6674 11.9148 13.4924 12.0939 13.8908 12.7132ZM13.0661 17.1701C13.4646 17.7893 13.2855 18.6144 12.6662 19.0128C12.047 19.4112 11.2219 19.2322 10.8235 18.6129C10.4251 17.9936 10.6041 17.1686 11.2234 16.7702C11.8427 16.3717 12.6677 16.5508 13.0661 17.1701ZM12.7695 13.4346L13.0154 13.4801L12.1907 17.937L11.9448 17.8915L11.699 17.846L12.5237 13.3891L12.7695 13.4346Z"
-                    fill="white" fill-opacity="0.2" />
-                <path
-                    d="M12.8859 21.326C13.2571 21.962 13.0424 22.7785 12.4064 23.1496C11.7704 23.5208 10.954 23.3061 10.5828 22.6701C10.2116 22.0341 10.4263 21.2176 11.0623 20.8465C11.6983 20.4753 12.5148 20.69 12.8859 21.326ZM12.1114 26.3093C12.4826 26.9453 12.2679 27.7618 11.6319 28.1329C10.9959 28.5041 10.1794 28.2894 9.80827 27.6534C9.43711 27.0174 9.65179 26.201 10.2878 25.8298C10.9238 25.4586 11.7403 25.6733 12.1114 26.3093ZM11.7344 21.998L11.9814 22.0364L11.2069 27.0198L10.9598 26.9814L10.7128 26.943L11.4873 21.9597L11.7344 21.998Z"
-                    fill="white" fill-opacity="0.3" />
-                <path
-                    d="M16.6514 24.5694C16.0835 25.0381 15.2431 24.9576 14.7744 24.3897C14.3057 23.8217 14.3861 22.9814 14.9541 22.5127C15.522 22.0439 16.3624 22.1244 16.8311 22.6923C17.2998 23.2603 17.2194 24.1007 16.6514 24.5694ZM11.7909 27.991C11.223 28.4597 10.3826 28.3793 9.91388 27.8113C9.44517 27.2434 9.52562 26.403 10.0936 25.9343C10.6615 25.4656 11.5019 25.546 11.9706 26.114C12.4393 26.6819 12.3589 27.5223 11.7909 27.991ZM15.8027 23.541L15.9466 23.7454L11.0862 27.1671L10.9422 26.9627L10.7983 26.7582L15.6588 23.3366L15.8027 23.541Z"
-                    fill="white" fill-opacity="0.1" />
-            </svg>
-
-        </button>
     </div>
 
-    <!-- ─── WARDROBE PANEL ─────────────────────────────────────── -->
+    <!-- ─── WARDROBE PANEL ─── -->
     <div id="panel-wardrobe" class="panel">
         <div class="view-container">
 
@@ -873,7 +1004,7 @@
                 </div>
             </div>
 
-            <!-- Detail view -->
+            <!-- Detail view: 2-col grid (image left, controls right) -->
             <div id="wardrobe-details-view" class="inner-view">
                 <div class="header-title">
                     <button class="icon-btn" onclick="backToWardrobeList()">
@@ -884,7 +1015,6 @@
                     </button>
                     <span id="selected-cloth-name" class="label-text">SUIT JACKET</span>
                     <div class="header-controls">
-                        <!-- Equip button — replace inner SVG with your own icon -->
                         <button class="equip-circle-btn" onclick="wearCloth()" title="Wear item">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -900,21 +1030,44 @@
                         </button>
                     </div>
                 </div>
-                <div style="display:flex; flex-direction:column; gap:20px;">
-                    <div class="selection-row" style="padding-top: 10px;">
-                        <span class="val-text" style="padding-left: 5px;">SIZE</span>
-                        <div class="button-group-pill size-selector">
-                            <button class="group-btn active">S</button>
-                            <button class="group-btn">M</button>
-                            <button class="group-btn">L</button>
-                        </div>
+
+                <div class="cloth-detail-grid">
+                    <div class="cloth-detail-img">
+                        <!-- Garment silhouette placeholder -->
+                        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z" />
+                        </svg>
                     </div>
-                    <div class="selection-row" style="padding-top: 2px;">
-                        <span class="val-text" style="padding-left: 5px;">COLOR</span>
-                        <div class="swatch-group">
-                            <div class="swatch active" style="background: #1a1a1a;"></div>
-                            <div class="swatch" style="background: #4a5568;"></div>
-                            <div class="swatch" style="background: #2d3748;"></div>
+                    <div class="cloth-detail-info">
+                        <div class="selection-row">
+                            <span class="val-text" style="padding-left: 2px; flex-shrink: 0;">SIZE</span>
+                            <div class="size-scroll-pill">
+                                <div class="size-scroll-inner size-selector">
+                                    <button class="size-btn active">XS</button>
+                                    <button class="size-btn">S</button>
+                                    <button class="size-btn">M</button>
+                                    <button class="size-btn">L</button>
+                                    <button class="size-btn">XL</button>
+                                    <button class="size-btn">XXL</button>
+                                    <button class="size-btn">3XL</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="selection-row">
+                            <span class="val-text" style="padding-left: 2px; flex-shrink: 0;">COLOR</span>
+                            <div class="color-scroll-wrap" id="color-scroll-wrap">
+                                <div class="color-scroll-inner" id="color-scroll-inner">
+                                    <div class="swatch active" style="background:#1a1a1a;"></div>
+                                    <div class="swatch" style="background:#4a5568;"></div>
+                                    <div class="swatch" style="background:#2d3748;"></div>
+                                    <div class="swatch" style="background:#7c3aed;"></div>
+                                    <div class="swatch" style="background:#b45309;"></div>
+                                    <div class="swatch" style="background:#065f46;"></div>
+                                    <div class="swatch" style="background:#9f1239;"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -923,12 +1076,12 @@
         </div>
     </div>
 
-    <!-- ─── SIMULATION PANEL (redesigned, compact) ────────────── -->
+    <!-- ─── SIMULATION PANEL (single row: sim btns | pose scroll | close) ─── -->
     <div id="panel-simulation" class="panel">
-        <div class="header-title" style="margin-bottom: 14px;">
+        <div class="sim-panel-row">
+            <!-- Left: 3 simulation control buttons -->
             <div class="sim-controls-row">
-                <!-- Cloth Simulation — replace SVG with your own -->
-                <button class="sim-icon-btn active" id="btn-cloth-sim" onclick="this.classList.toggle('active')"
+                <button class="sim-icon-btn" id="btn-cloth-sim" onclick="this.classList.toggle('active')"
                     title="Cloth Simulation">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round">
@@ -936,7 +1089,6 @@
                         <path d="M2 15c1.8-2.5 3.5-3.8 5-3.8S10 12.8 12 12.8s3.2-1.6 5-1.6 3.2 1.3 5 3.6" />
                     </svg>
                 </button>
-                <!-- Strain Map — replace SVG with your own -->
                 <button class="sim-icon-btn" id="btn-strain" onclick="this.classList.toggle('active')"
                     title="Strain Map">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -947,7 +1099,6 @@
                         <rect x="14" y="14" width="7" height="7" rx="1.5" />
                     </svg>
                 </button>
-                <!-- Visibility — replace SVG with your own -->
                 <button class="sim-icon-btn" id="btn-visibility" onclick="this.classList.toggle('active')"
                     title="Visibility">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -957,6 +1108,19 @@
                     </svg>
                 </button>
             </div>
+
+            <!-- Middle: pose scroll pill fills remaining space -->
+            <div class="pose-scroll-pill">
+                <div class="h-scroll">
+                    <div class="pose-card selected">A-POSE</div>
+                    <div class="pose-card">WALK</div>
+                    <div class="pose-card">RUN</div>
+                    <div class="pose-card">IDLE</div>
+                    <div class="pose-card">STAND</div>
+                </div>
+            </div>
+
+            <!-- Right: close chevron -->
             <button class="icon-btn" onclick="closeAll()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -964,19 +1128,9 @@
                 </svg>
             </button>
         </div>
-
-        <div class="scroll-container">
-            <div class="h-scroll" style="padding: 8px 20px;">
-                <div class="pose-card selected">A-POSE</div>
-                <div class="pose-card">WALK</div>
-                <div class="pose-card">RUN</div>
-                <div class="pose-card">IDLE</div>
-                <div class="pose-card">STAND</div>
-            </div>
-        </div>
     </div>
 
-    <!-- ─── FACE PANEL (unchanged) ────────────────────────────── -->
+    <!-- ─── FACE PANEL (unchanged) ─── -->
     <div id="panel-face" class="panel">
         <div class="header-title">
             <div class="header-controls">
@@ -1010,10 +1164,9 @@
         </div>
     </div>
 
-    <!-- ─── BODY PANEL (unchanged) ────────────────────────────── -->
+    <!-- ─── BODY PANEL (unchanged) ─── -->
     <div id="panel-body" class="panel">
         <div class="header-title header-dynamic-wrapper">
-
             <div class="header-dynamic-area">
 
                 <div class="header-view active" id="header-main">
@@ -1072,7 +1225,6 @@
         </div>
 
         <div class="view-container">
-
             <div class="inner-view active" id="view-body-main" style="padding-top: 10px;">
                 <div class="body-grid">
                     <div class="slider-group">
@@ -1279,12 +1431,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
-        /* ── Nav / panel orchestration ────────────────────────── */
+        /* ── Nav / panel orchestration ─── */
         function toggleNav(navType, targetPanelId) {
             if (navType === 'sim') {
                 const liveBtn = document.getElementById('live-btn');
@@ -1328,13 +1479,12 @@
             switchBodyView(viewType);
         }
 
-        /* ── Body panel views ─────────────────────────────────── */
+        /* ── Body panel views ─── */
         function switchBodyView(viewType) {
             const mainView = document.getElementById('view-body-main');
             const refineView = document.getElementById('view-body-refine');
             const headerMain = document.getElementById('header-main');
             const headerRefine = document.getElementById('header-refine');
-
             if (viewType === 'refine') {
                 headerMain.classList.remove('active');
                 headerRefine.classList.add('active');
@@ -1361,11 +1511,17 @@
             document.getElementById('cat-' + categoryName).classList.add('active');
         }
 
-        /* ── Wardrobe panel ───────────────────────────────────── */
+        /* ── Wardrobe panel ─── */
         function openClothDetails(name) {
             document.getElementById('selected-cloth-name').innerText = name.toUpperCase();
             document.getElementById('wardrobe-list-view').classList.remove('active');
             document.getElementById('wardrobe-details-view').classList.add('active');
+            // Re-check color scroll fades after view becomes visible
+            requestAnimationFrame(() => {
+                const cw = document.getElementById('color-scroll-wrap');
+                const ci = document.getElementById('color-scroll-inner');
+                if (cw && ci) updateColorFades(cw, ci);
+            });
         }
 
         function backToWardrobeList() {
@@ -1374,14 +1530,18 @@
         }
 
         function wearCloth() {
-            // Close panels, reveal the Live circle button next to the nav bar
             closeAll();
             const liveBtn = document.getElementById('live-btn');
+            // Make visible (expands width inside nav bar)
             liveBtn.classList.add('visible');
-            liveBtn.style.animation = 'pulseGreen 2s ease-in-out 3';
+            // Breathing pulse to signal the new button — white to match nav language
+            liveBtn.style.animation = 'none';
+            requestAnimationFrame(() => {
+                liveBtn.style.animation = 'pulseWhite 1.8s ease-in-out 3';
+            });
         }
 
-        /* ── Face cards ──────────────────────────────────────── */
+        /* ── Face cards ─── */
         document.querySelectorAll('.face-card').forEach(el => {
             el.addEventListener('click', (e) => {
                 e.target.closest('.h-scroll').querySelectorAll('.face-card')
@@ -1390,25 +1550,45 @@
             });
         });
 
-        /* ── Size selector (wardrobe detail) ─────────────────── */
-        document.querySelectorAll('.size-selector .group-btn').forEach(btn => {
+        /* ── Size selector (scrollable) ─── */
+        document.querySelectorAll('.size-selector .size-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                btn.closest('.size-selector').querySelectorAll('.group-btn')
+                btn.closest('.size-selector').querySelectorAll('.size-btn')
                     .forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             });
         });
 
-        /* ── Color swatches ───────────────────────────────────── */
-        document.querySelectorAll('.swatch-group .swatch').forEach(swatch => {
+        /* ── Color swatches ─── */
+        document.querySelectorAll('.color-scroll-inner .swatch').forEach(swatch => {
             swatch.addEventListener('click', () => {
-                swatch.closest('.swatch-group').querySelectorAll('.swatch')
+                swatch.closest('.color-scroll-inner').querySelectorAll('.swatch')
                     .forEach(s => s.classList.remove('active'));
                 swatch.classList.add('active');
             });
         });
 
-        /* ── Pose cards ───────────────────────────────────────── */
+        /* ── Color scroll gradient fades ─── */
+        function updateColorFades(wrap, inner) {
+            const hasOverflow = inner.scrollWidth > inner.clientWidth + 2;
+            if (!hasOverflow) {
+                wrap.classList.remove('fade-left', 'fade-right');
+                return;
+            }
+            wrap.classList.toggle('fade-left', inner.scrollLeft > 4);
+            wrap.classList.toggle('fade-right', inner.scrollLeft < inner.scrollWidth - inner.clientWidth - 4);
+        }
+
+        const colorWrap = document.getElementById('color-scroll-wrap');
+        const colorInner = document.getElementById('color-scroll-inner');
+
+        if (colorWrap && colorInner) {
+            colorInner.addEventListener('scroll', () => updateColorFades(colorWrap, colorInner));
+            // Initial check after layout
+            requestAnimationFrame(() => updateColorFades(colorWrap, colorInner));
+        }
+
+        /* ── Pose cards ─── */
         document.querySelectorAll('.pose-card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('.pose-card').forEach(c => c.classList.remove('selected'));
@@ -1416,7 +1596,7 @@
             });
         });
 
-        /* ── Precision slider: block click-to-jump ────────────── */
+        /* ── Precision slider: block click-to-jump ─── */
         document.querySelectorAll('input[type=range]').forEach(slider => {
             const handleCapture = (e) => {
                 const rect = slider.getBoundingClientRect();
